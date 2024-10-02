@@ -118,7 +118,7 @@ function CalculateHolidays() {
     const eleteMetk = calculateDayOfWeek(firstDay, metk);
     const tewsakElet = returnEletTewsak(eleteMetk);
     //calculating feast of Nineveh / Nenewe
-    const neneweTsomMegbiyaWer = bealeMetk == "Meskerem" ? "Tirr" : "Yekatit";
+    let neneweTsomMegbiyaWer = bealeMetk == "Meskerem" ? "Tirr" : "Yekatit";
 
     const mebajaHamer = (tewsakElet + metk) % 30;
     // const neneweTsom = tewsakElet + metk > 30 ? monthsOfYear("Tirr") : "Tirr";
@@ -127,16 +127,31 @@ function CalculateHolidays() {
       metk,
       neneweTsomMegbiyaWer
     );
+    neneweTsomMegbiyaWer = calculateFastingAndHoliday(
+      tewsakElet,
+      metk,
+      neneweTsomMegbiyaWer
+    )[0];
     const abiyTsom = calculateFastingAndHoliday(
       14,
       mebajaHamer,
       neneweTsomMegbiyaWer
     );
+    neneweTsomMegbiyaWer = calculateFastingAndHoliday(
+      14,
+      metk,
+      neneweTsomMegbiyaWer
+    )[0];
     const debreZeit = calculateFastingAndHoliday(
       11,
       mebajaHamer,
       neneweTsomMegbiyaWer
     );
+    neneweTsomMegbiyaWer = calculateFastingAndHoliday(
+      11,
+      metk,
+      neneweTsomMegbiyaWer
+    )[0];
     const Hosanna = calculateFastingAndHoliday(
       2,
       mebajaHamer,
@@ -204,7 +219,8 @@ function CalculateHolidays() {
   const calculateFastingAndHoliday = (tewsak: any, metk: any, month: any) => {
     const currentMonth = tewsak + metk > 30 ? monthsOfYear(month) : month;
     const day = (tewsak + metk) % 30;
-    return `${currentMonth}  ${day}`;
+    // return `${currentMonth}  ${day}`;
+    return [currentMonth, day];
   };
 
   return (
