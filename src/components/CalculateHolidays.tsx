@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -13,6 +13,10 @@ import {
 } from "@/components/ui/table";
 
 function CalculateHolidays() {
+  const [holidays, setHolidays] = useState([]);
+
+  let oldMonth = "";
+  let oldDay = 0;
   const returnWongelawi = (n: number) => {
     switch (n) {
       case 1:
@@ -99,7 +103,7 @@ function CalculateHolidays() {
   };
   const calculate = () => {
     const ameteKunene = 5500;
-    const ameteMhret = 2017;
+    const ameteMhret = 2018;
     const ameteAlem = ameteKunene + ameteMhret;
     const meteneRabit = Math.floor(ameteAlem / 4);
 
@@ -118,109 +122,54 @@ function CalculateHolidays() {
     const eleteMetk = calculateDayOfWeek(firstDay, metk);
     const tewsakElet = returnEletTewsak(eleteMetk);
     //calculating feast of Nineveh / Nenewe
-    let neneweTsomMegbiyaWer = bealeMetk == "Meskerem" ? "Tirr" : "Yekatit";
+    let neneweTsomMegbiyaWer: any =
+      bealeMetk == "Meskerem" ? "Tirr" : "Yekatit";
 
     const mebajaHamer = (tewsakElet + metk) % 30;
     // const neneweTsom = tewsakElet + metk > 30 ? monthsOfYear("Tirr") : "Tirr";
-    const nenewe = calculateFastingAndHoliday(
-      tewsakElet,
-      metk,
-      neneweTsomMegbiyaWer
-    );
-    neneweTsomMegbiyaWer = calculateFastingAndHoliday(
-      tewsakElet,
-      metk,
-      neneweTsomMegbiyaWer
-    )[0];
-    const abiyTsom = calculateFastingAndHoliday(
-      14,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    neneweTsomMegbiyaWer = calculateFastingAndHoliday(
-      14,
-      metk,
-      neneweTsomMegbiyaWer
-    )[0];
-    const debreZeit = calculateFastingAndHoliday(
-      11,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    neneweTsomMegbiyaWer = calculateFastingAndHoliday(
-      11,
-      metk,
-      neneweTsomMegbiyaWer
-    )[0];
-    const Hosanna = calculateFastingAndHoliday(
-      2,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    const siklet = calculateFastingAndHoliday(
-      7,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    const tinsae = calculateFastingAndHoliday(
-      9,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    const rkbeKahnat = calculateFastingAndHoliday(
-      3,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    const erget = calculateFastingAndHoliday(
-      18,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    const peraklitos = calculateFastingAndHoliday(
-      28,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    const tsomeHawariyat = calculateFastingAndHoliday(
-      29,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
-    const tsomeDhnet = calculateFastingAndHoliday(
-      1,
-      mebajaHamer,
-      neneweTsomMegbiyaWer
-    );
+
+    oldMonth = neneweTsomMegbiyaWer;
+
+    const holidaysList: any = [
+      { name: "Amete Mhret", date: ameteMhret },
+      { name: "Wengelawi", date: wongelawi },
+      { name: "Zemen melewecha", date: eleteEnkutatash },
+      { name: "Nenewe", date: calculateFastingAndHoliday(tewsakElet, metk) },
+      { name: "Abiy Tsom", date: calculateFastingAndHoliday(14, mebajaHamer) },
+      { name: "Debre Zeit", date: calculateFastingAndHoliday(11, mebajaHamer) },
+      { name: "Hosanna", date: calculateFastingAndHoliday(2, mebajaHamer) },
+      { name: "Siklet", date: calculateFastingAndHoliday(7, mebajaHamer) },
+      { name: "Tinsae", date: calculateFastingAndHoliday(9, mebajaHamer) },
+      { name: "Rkbe Kahnat", date: calculateFastingAndHoliday(3, mebajaHamer) },
+      { name: "Erget", date: calculateFastingAndHoliday(18, mebajaHamer) },
+      { name: "Peraklitos", date: calculateFastingAndHoliday(28, mebajaHamer) },
+      {
+        name: "Tsome Hawariyat",
+        date: calculateFastingAndHoliday(29, mebajaHamer),
+      },
+      { name: "Tsome Dhnet", date: calculateFastingAndHoliday(1, mebajaHamer) },
+    ];
+
+    setHolidays(holidaysList);
 
     // console.log("wongelawi", wongelawi);
     // console.log("metene rabit", meteneRabit);
     // console.log("enkutatash", eleteEnkutatash);
     // console.log("medeb", medeb);
     // console.log("abekte", abekte);
-    // console.log("metk", metk);
+    console.log("metk", metk);
     // console.log(" bealemetk", bealeMetk, " ", metk);
     // console.log("abekte day", eleteMetk);
     // // console.log("nenewe", neneweTsomMegbiyaWer, mebajaHamer);
     // // console.log("nenewe megbiya", neneweTsomMegbiyaWer, mebajaHamer);
-    // console.log("nenewe", nenewe);
-    console.log("nenewe", nenewe);
-    console.log("abiy tsom", abiyTsom);
-    console.log("debre zeit", debreZeit);
-    console.log("hossana", Hosanna);
-    console.log("siklet", siklet);
-    console.log("tinsae", tinsae);
-    console.log("rkbe kahnat", rkbeKahnat);
-    console.log("erget", erget);
-    console.log("perakitos", peraklitos);
-    console.log("tsome hawariyat", tsomeHawariyat);
-    console.log("tsome dhnet", tsomeDhnet);
   };
-  const calculateFastingAndHoliday = (tewsak: any, metk: any, month: any) => {
-    const currentMonth = tewsak + metk > 30 ? monthsOfYear(month) : month;
+  const calculateFastingAndHoliday = (tewsak: any, metk: any) => {
     const day = (tewsak + metk) % 30;
-    // return `${currentMonth}  ${day}`;
-    return [currentMonth, day];
+    let currentMonth =
+      tewsak + metk > 30 && oldDay > day ? monthsOfYear(oldMonth) : oldMonth;
+    oldDay = day;
+    oldMonth = currentMonth;
+    return `${currentMonth} ${day}`;
   };
 
   return (
@@ -248,10 +197,12 @@ function CalculateHolidays() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell>New year</TableCell>
-            <TableCell>Meskerem 1</TableCell>
-          </TableRow>
+          {holidays.map((holiday: any, index) => (
+            <TableRow key={index}>
+              <TableCell>{holiday.name}</TableCell>
+              <TableCell>{holiday.date}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
